@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
+		<script>
+			function random_hash() {
+				let chars = "0123456789abcdef";
+				let result = '0x';
+				for (let i = 64; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+				return result;
+			}
+			let tokenData = {"hash":random_hash()}
+			console.log("tokenData = {\"hash\":\"" + tokenData["hash"] + "\"};");
+		</script>
+		<script>
+
+			// ~~~~~~~~~~~~~~ YOUR SCRIPT CODE GOES HERE ~~~~~~~~~~~~~~ //
+
+			function setup() {
+
+				// get rid of the default canvas
+				noCanvas();
+
+				// no animation
+				noLoop();
+
+				// parse the token hash and seed the rng
+				let s = parseInt(tokenData.hash.slice(0, 16), 16);
+				randomSeed(s);
+
+				// set the width and height in inches
+				let xin = 8.5;
+				let yin = 11;
+
+				// set the dpi
+				let dpi = 100;
+
+				// calculate the svg coordinate space
+				let w = xin * dpi;
+				let h = yin * dpi;
+
+				// this is an array that will hold all of the info for the svg
+				let paths = [
+					[[0, 0], [w, 0]],
+					[[0, 0], [0, h]],
+					[[w, 0], [w, h]],
+					[[0, h], [w, h]]
+				];
+
+				// ~~~~~~~~~~~~~~ DRAW STUFF HERE ~~~~~~~~~~~~~~
+				for (let i = 0; i < 100; i++) {
+					let x1 = random(20, w - 20);
+					let y1 = random(20, h - 20);
+					let x2 = random(20, w - 20);
+					let y2 = random(20, h - 20);
+					paths.push([[x1, y1], [x2, y2]]);
+				}
+				// ~~~~~~~~~~~~~~ DRAW STUFF HERE ~~~~~~~~~~~~~~
+
+
+				// set up the svg
+				let ns = 'http://www.w3.org/2000/svg';
+				let svg = document.createElementNS(ns, 'svg');
+
+				// set the svg attributes
+				svg.setAttribute('class', 'plot');
+				svg.setAttribute('width', xin + 'in');
+				svg.setAttribute('height', yin + 'in');
+				svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+				svg.setAttribute('style', 'background-color:white;');
+
+				// add the paths to the svg
+				for (let i = 0; i < paths.length; i++) {
+					let shape = 'M ' + paths[i][0][0] + ' ' + paths[i][0][1];
+					for (let j = 1; j < paths[i].length; j++) {
+						shape += ' L ' + paths[i][j][0] + ' ' + paths[i][j][1];
+					}
+					let path = document.createElementNS(ns, 'path');
+					path.setAttribute('style', 'fill:none;stroke-width:1;stroke:rgb(0%,0%,0%);');
+					path.setAttribute('d', shape);
+					svg.appendChild(path);
+				}
+
+				// append the svg to the body
+				document.body.appendChild(svg);
+
+				// add custom svg css
+				let style = document.createElement('style');
+				style.appendChild(document.createTextNode('.plot{width:100vw;height:100vh;}'));
+				document.head.appendChild(style);
+
+			}
+
+			// ~~~~~~~~~~~~~~ YOUR SCRIPT CODE GOES HERE ~~~~~~~~~~~~~~ //
+
+		</script>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+</html>
