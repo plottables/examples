@@ -61,9 +61,8 @@
 				let svg = document.createElementNS(ns, 'svg');
 
 				// set the svg attributes
-				svg.setAttribute('class', 'plot');
-				svg.setAttribute('width', xin + 'in');
-				svg.setAttribute('height', yin + 'in');
+				svg.setAttribute('width', '100vw');
+				svg.setAttribute('height', '100vh');
 				svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
 				svg.setAttribute('style', 'background-color:white;');
 
@@ -81,11 +80,6 @@
 
 				// append the svg to the body
 				document.body.appendChild(svg);
-
-				// add custom svg css
-				let style = document.createElement('style');
-				style.appendChild(document.createTextNode('.plot{width:100vw;height:100vh;}'));
-				document.head.appendChild(style);
 
 			}
 
