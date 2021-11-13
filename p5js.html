@@ -39,23 +39,6 @@
 				let w = xin * dpi;
 				let h = yin * dpi;
 
-				// this is an array that will hold all of the info for the svg
-				let paths = [
-					[[0, 0]],
-					[[w, h]]
-				];
-
-				// ~~~~~~~~~~~~~~ DRAW STUFF HERE ~~~~~~~~~~~~~~
-				for (let i = 0; i < 100; i++) {
-					let x1 = random(20, w - 20);
-					let y1 = random(20, h - 20);
-					let x2 = random(20, w - 20);
-					let y2 = random(20, h - 20);
-					paths.push([[x1, y1], [x2, y2]]);
-				}
-				// ~~~~~~~~~~~~~~ DRAW STUFF HERE ~~~~~~~~~~~~~~
-
-
 				// set up the svg
 				let ns = 'http://www.w3.org/2000/svg';
 				let svg = document.createElementNS(ns, 'svg');
@@ -66,17 +49,40 @@
 				svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
 				svg.setAttribute('style', 'background-color:white;');
 
-				// add the paths to the svg
-				for (let i = 0; i < paths.length; i++) {
-					let shape = 'M ' + paths[i][0][0] + ' ' + paths[i][0][1];
-					for (let j = 1; j < paths[i].length; j++) {
-						shape += ' L ' + paths[i][j][0] + ' ' + paths[i][j][1];
-					}
+				// append the document bounds
+				let bounds = document.createElementNS(ns, 'path');
+				bounds.setAttribute('d', `M 0 0 L ${w} ${h}`);
+				svg.appendChild(bounds);
+
+				// ~~~~~~~~~~~~~~ ADD STUFF TO THE SVG HERE ~~~~~~~~~~~~~~ //
+				let red = document.createElementNS(ns, 'g');
+				red.setAttribute('id', 'red');
+				for (let i = 0; i < 50; i++) {
+					let x1 = random(0, w);
+					let y1 = random(0, h);
+					let x2 = random(0, w);
+					let y2 = random(0, h);
 					let path = document.createElementNS(ns, 'path');
-					path.setAttribute('style', 'fill:none;stroke-width:1;stroke:rgb(0%,0%,0%);');
-					path.setAttribute('d', shape);
-					svg.appendChild(path);
+					path.setAttribute('style', 'fill:none;stroke-width:1;stroke:rgb(100%,0%,0%);');
+					path.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+					red.appendChild(path);
 				}
+				svg.appendChild(red);
+
+				let blue = document.createElementNS(ns, 'g');
+				blue.setAttribute('id', 'blue');
+				for (let i = 0; i < 50; i++) {
+					let x1 = random(0, w);
+					let y1 = random(0, h);
+					let x2 = random(0, w);
+					let y2 = random(0, h);
+					let path = document.createElementNS(ns, 'path');
+					path.setAttribute('style', 'fill:none;stroke-width:1;stroke:rgb(0%,0%,100%);');
+					path.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2}`);
+					blue.appendChild(path);
+				}
+				svg.appendChild(blue);
+				// ~~~~~~~~~~~~~~ ADD STUFF TO THE SVG HERE ~~~~~~~~~~~~~~ //
 
 				// append the svg to the body
 				document.body.appendChild(svg);
