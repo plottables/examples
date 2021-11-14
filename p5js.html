@@ -49,11 +49,6 @@
 				svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
 				svg.setAttribute('style', 'background-color:white;');
 
-				// append the document bounds
-				let bounds = document.createElementNS(ns, 'path');
-				bounds.setAttribute('d', `M 0 0 L ${w} ${h}`);
-				svg.appendChild(bounds);
-
 				// ~~~~~~~~~~~~~~ ADD STUFF TO THE SVG HERE ~~~~~~~~~~~~~~ //
 				let red = document.createElementNS(ns, 'g');
 				red.setAttribute('id', 'red');
